@@ -17,7 +17,5 @@ services:
   hello-world:
     container_name: hello-world
     image: traefik/whoami
-    ports:
-      - "80:80"
     networks:
       - proxy
