@@ -47,3 +47,9 @@ services:
       - "./medhack-frontiers-db/staging:/var/lib/mysql"
     networks:
       - proxy
+
+  medhack-frontend:
+    container_name: medhack-frontend
+    image: caillinnugent/next-template-test:${FRONTEND_TAG}
+    networks:
+      - proxy
