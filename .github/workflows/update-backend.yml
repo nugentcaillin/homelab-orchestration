@@ -1,0 +1,33 @@
+name: Update medhack backend
+on: 
+  repository_dispatch:
+    types: [update-backend]
+jobs:
+  deploy_to_server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: install_cloudflared 
+        run: |
+          sudo mkdir -p --mode=0755 /usr/share/keyrings
+          curl -fsSL https://pkg.cloudflare.com/cloudflare-public-v2.gpg | sudo tee /usr/share/keyrings/cloudflare-public-v2.gpg >/dev/null
+          echo "deb [signed-by=/usr/share/keyrings/cloudflare-public-v2.gpg] https://pkg.cloudflare.com/cloudflared any main" | sudo tee /etc/apt/sources.list.d/cloudflared.list
+          sudo apt-get update && sudo apt-get install cloudflared
+      - name: update env variable
+        env: 
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+          DEPLOY_BOT_PRIVATE_KEY: "${{ secrets.DEPLOY_BOT_PRIVATE_KEY }}"
+          DEPLOY_BOT_USER: ${{ secrets.DEPLOY_BOT_USER }}
+          DEPLOY_BOT_HOST: ${{ secrets.DEPLOY_BOT_HOST }}
+        run: |
+          echo "${{secrets.DEPLOY_BOT_PRIVATE_KEY}}" > deploy_key 
+          chmod 600 deploy_key
+          ssh -i deploy_key -v -o "StrictHostKeyChecking=no" -o "ProxyCommand=cloudflared access ssh --hostname $DEPLOY_BOT_HOST --service-token-id $CF_ACCESS_CLIENT_ID --service-token-secret $CF_ACCESS_CLIENT_SECRET" $DEPLOY_BOT_USER@$DEPLOY_BOT_HOST << EOF
+          cd /opt/infra/homelab-orchestration
+          sed -i "s/^BACKEND_TAG=.*/BACKEND_TAG=${{ github.event.client_payload.new_tag }}/" .env
+          docker compose pull medhack-frontend
+          docker compose up -d medhack-frontend
+          docker image prune -f
+          EOF
+
+  
