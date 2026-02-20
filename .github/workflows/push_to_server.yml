@@ -20,7 +20,7 @@ jobs:
         run: |
           echo $DEPLOY_BOT_PRIVATE_KEY > deploy_key 
           chmod 600 deploy_key
-          ssh -i deploy_key -o "StrictHostKeyChecking=no" -o "ProxyCommand=cloudflared access ssh --hostname $DEPLOY_BOT_HOST --service-token-id $CF_ACCESS_CLIENT_ID --service-token-secret $CF_ACCESS_CLIENT_SECRET" $DEPLOY_BOT_HOST@$DEPLOY_BOT_USER \
+          ssh -i deploy_key -v -o "StrictHostKeyChecking=no" -o "ProxyCommand=cloudflared access ssh --hostname $DEPLOY_BOT_HOST --service-token-id $CF_ACCESS_CLIENT_ID --service-token-secret $CF_ACCESS_CLIENT_SECRET" $DEPLOY_BOT_HOST@$DEPLOY_BOT_USER \
           cd /opt/infra/homelab-orchestration \
           git pull \
           dokcer compose pull \ 
