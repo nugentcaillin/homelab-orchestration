@@ -1,0 +1,25 @@
+name: Push repository to Remote Server
+on: [push]
+jobs:
+  deploy:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Install Cloudflared 
+    - name: Remote deploy
+      env: 
+        CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+        CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+        DEPLOY_BOT_PRIVATE_KEY: ${{ secrets.DEPLOY_BOT_PRIVATE_KEY }}
+        DEPLOY_BOT_USER: ${{ secrets.DEPLOY_BOT_USER }}
+        DEPLOY_BOT_HOST: {{ secrets.DEPLOY_BOT_HOST }}
+      - run: |
+          echo $DEPLOY_BOT_PRIVATE_KEY > deploy_key 
+          chmod 600 deploy_key
+          ssh -i deploy_key -o "StrictHostKeyChecking=no" -o "ProxyCommand=cloudflared access ssh --hostname $DEPLOY_BOT_HOST --service-token-id $CF_ACCESS_CLIENT_ID --service-token-secret $CF_ACCESS_CLIENT_SECRET" $DEPLOY_BOT_HOST@$DEPLOY_BOT_USER \
+          cd /opt/infra/homelab-orchestration \
+          git pull \
+          dokcer compose pull \ 
+          docker compose down \
+          docker compose up -d \
+
+  
