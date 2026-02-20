@@ -1,0 +1,9 @@
+services:
+  reverse-proxy:
+    container_name: reverse-proxy
+    image: nginx:1.29.5
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
