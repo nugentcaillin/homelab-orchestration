@@ -14,6 +14,7 @@ services:
       - "/var/www/certbot:/var/www/certbot:ro"
       - "/etc/letsencrypt:/etc/letsencrypt:ro"
       - "/var/log/nginx:/var/log/nginx"
+
     networks:
       - proxy
 
@@ -24,12 +25,23 @@ services:
       - proxy
 
   medhack-frontiers-db:
-    container_name: medhack-frontiers-db
+    container_name: medhack-frontiers-db-prod
     image: mysql:8.4.8
     environment:
       - MYSQL_ROOT_PASSWORD=${MEDHACK_FRONTIERS_DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=medHackFrontiersDB
+      - MYSQL_DATABASE=medHackFrontiersDBprod
     volumes:
-      "./medhack-frontiers-db/data:/var/lib/mysql"
+      "./medhack-frontiers-db/prod:/var/lib/mysql"
+    networks:
+      - proxy
+
+  medhack-frontiers-db-staging:
+    container_name: medhack-frontiers-db-staging
+    image: mysql:8.4.8
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MEDHACK_FRONTIERS_DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=medHackFrontiersDBstaging
+    volumes:
+      "./medhack-frontiers-db/staging:/var/lib/mysql"
     networks:
       - proxy
