@@ -24,8 +24,8 @@ jobs:
           cd /opt/infra/homelab-orchestration
           git pull 
           docker compose pull  
-          docker compose down 
-          docker compose up -d 
+          docker compose up -d --detatch-orphans
+          docker exec reverse-proxy nginx -s reload
           EOF
 
   
