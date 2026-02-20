@@ -12,6 +12,7 @@ services:
       - "3306:3306"
     volumes:
       - "./nginx/config:/etc/nginx/conf.d:ro"
+      - "./nginx/config:/etc/nginx/stream.conf.d:ro"
       - "/var/www/certbot:/var/www/certbot:ro"
       - "/etc/letsencrypt:/etc/letsencrypt:ro"
       - "/var/log/nginx:/var/log/nginx"
