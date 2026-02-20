@@ -16,8 +16,20 @@ services:
       - "/var/log/nginx:/var/log/nginx"
     networks:
       - proxy
+
   hello-world:
     container_name: hello-world
     image: traefik/whoami
+    networks:
+      - proxy
+
+  medhack-frontiers-db:
+    container_name: medhack-frontiers-db
+    image: mysql:8.4.8
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MEDHACK_FRONTIERS_DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=medHackFrontiersDB
+    volumes:
+      "./medhack-frontiers-db/data:/var/lib/mysql"
     networks:
       - proxy
