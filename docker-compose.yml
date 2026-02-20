@@ -31,7 +31,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${MEDHACK_FRONTIERS_DB_ROOT_PASSWORD}
       - MYSQL_DATABASE=medHackFrontiersDBprod
     volumes:
-      "./medhack-frontiers-db/prod:/var/lib/mysql"
+      - "./medhack-frontiers-db/prod:/var/lib/mysql"
     networks:
       - proxy
 
@@ -42,6 +42,6 @@ services:
       - MYSQL_ROOT_PASSWORD=${MEDHACK_FRONTIERS_DB_ROOT_PASSWORD}
       - MYSQL_DATABASE=medHackFrontiersDBstaging
     volumes:
-      "./medhack-frontiers-db/staging:/var/lib/mysql"
+      - "./medhack-frontiers-db/staging:/var/lib/mysql"
     networks:
       - proxy
