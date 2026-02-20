@@ -54,8 +54,8 @@ services:
     networks:
       - proxy
 
-medhack-backend:
-  container_name: medhack-backend
-  image: caillinnugent/next-flask-template-backend:${BACKEND_TAG}
-  networks:
-    - proxy
+  medhack-backend:
+    container_name: medhack-backend
+    image: caillinnugent/next-flask-template-backend:${BACKEND_TAG}
+    networks:
+      - proxy
