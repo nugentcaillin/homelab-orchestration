@@ -1,5 +1,5 @@
 name: Push repository to Remote Server
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
   deploy_to_server:
     runs-on: ubuntu-latest
