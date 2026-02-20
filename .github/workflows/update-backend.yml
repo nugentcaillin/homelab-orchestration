@@ -25,8 +25,8 @@ jobs:
           ssh -i deploy_key -v -o "StrictHostKeyChecking=no" -o "ProxyCommand=cloudflared access ssh --hostname $DEPLOY_BOT_HOST --service-token-id $CF_ACCESS_CLIENT_ID --service-token-secret $CF_ACCESS_CLIENT_SECRET" $DEPLOY_BOT_USER@$DEPLOY_BOT_HOST << EOF
           cd /opt/infra/homelab-orchestration
           sed -i "s/^BACKEND_TAG=.*/BACKEND_TAG=${{ github.event.client_payload.new_tag }}/" .env
-          docker compose pull medhack-frontend
-          docker compose up -d medhack-frontend
+          docker compose pull medhack-backend
+          docker compose up -d medhack-backend
           docker image prune -f
           EOF
 
