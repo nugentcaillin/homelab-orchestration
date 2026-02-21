@@ -50,12 +50,12 @@ services:
 
   medhack-frontend:
     container_name: medhack-frontend
-    image: caillinnugent/next-template-test:${FRONTEND_TAG}
+    image: caillinnugent/medhack-frontend:${FRONTEND_TAG}
     networks:
       - proxy
 
   medhack-backend:
     container_name: medhack-backend
-    image: caillinnugent/next-flask-template-backend:${BACKEND_TAG}
+    image: caillinnugent/medhack-backend:${BACKEND_TAG}
     networks:
       - proxy
