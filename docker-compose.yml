@@ -65,7 +65,7 @@ services:
     image: jellyfin/jellyfin
     volumes:
       - ./jellyfin/config:/config
-      - ./jellyfin/cache:cache
+      - ./jellyfin/cache:/cache
       - type: bind
         source: /media
         target: /media
