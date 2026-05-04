@@ -7,7 +7,7 @@ jobs:
       - uses: nugentcaillin/actions/cloudflared-ssh@main
         with:
           id: ${{secrets.CF_ACCESS_CLIENT_ID}}
-          secret: ${{secrets.CF_ACCESS_CLIENT_SECRED}}
+          secret: ${{secrets.CF_ACCESS_CLIENT_SECRET}}
           key: ${{secrets.DEPLOY_BOT_PRIVATE_KEY}}
           user: ${{secrets.DEPLOY_BOT_USER}}
           host: ${{secrets.DEPLOY_BOT_HOST}}
