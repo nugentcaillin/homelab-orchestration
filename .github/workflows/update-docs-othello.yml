@@ -1,0 +1,20 @@
+name: update Othello docs
+on: 
+  repository_dispatch:
+    types: [docs-update-othello]
+jobs:
+  deploy_docs:
+    uses: ./.github/workflows/update-docs.yml
+    with:
+      repository: nugentcaillin/othello
+      artifact: ${{ github.event.client_payload.artifact_id }}
+      dest: othello
+    secrets:
+      token: ${{ secrets.OTHELLO_ARTIFACT_PAT }}
+      CF_ACCESS_CLIENT_ID: ${{secrets.CF_ACCESS_CLIENT_ID}}
+      CF_ACCESS_CLIENT_SECRET: ${{secrets.CF_ACCESS_CLIENT_SECRET}}
+      DEPLOY_BOT_PRIVATE_KEY: ${{secrets.DEPLOY_BOT_PRIVATE_KEY}}
+      DEPLOY_BOT_USER: ${{secrets.DEPLOY_BOT_USER}}
+      DEPLOY_BOT_HOST: ${{secrets.DEPLOY_BOT_HOST}}
+      
+

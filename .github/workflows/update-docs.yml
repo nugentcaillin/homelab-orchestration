@@ -1,0 +1,52 @@
+name: Update docs
+on: 
+  workflow_call:
+    inputs: 
+      repository:
+        required: true
+        type: string
+      artifact:
+        required: true
+        type: string
+      dest:
+        required: true
+        type: string
+    secrets:
+      token:
+        required: true
+      CF_ACCESS_CLIENT_ID:
+        required: true
+      CF_ACCESS_CLIENT_SECRET:
+        required: true
+      DEPLOY_BOT_PRIVATE_KEY:
+        required: true
+      DEPLOY_BOT_USER:
+        required: true
+      DEPLOY_BOT_HOST:
+        required: true
+
+jobs:
+  deploy_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: nugentcaillin/actions/cloudflared-ssh@main
+        with:
+          id: ${{secrets.CF_ACCESS_CLIENT_ID}}
+          secret: ${{secrets.CF_ACCESS_CLIENT_SECRET}}
+          key: ${{secrets.DEPLOY_BOT_PRIVATE_KEY}}
+          user: ${{secrets.DEPLOY_BOT_USER}}
+          host: ${{secrets.DEPLOY_BOT_HOST}}
+          script: |
+            cd /opt/infra/homelab-orchestration
+            rm -rf docs/${{ inputs.dest }}
+            mkdir -p docs/${{ inputs.dest }}
+            cd docs/${{ inputs.dest }}
+            curl -L \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.token }}" \
+              -H "X-GitHub-Api-Version: 2026-03-10" \
+              https://api.github.com/repos/${{ inputs.repository }}/actions/artifacts/${{ inputs.artifact }}/zip \
+              --output docs.zip
+            unzip docs.zip
+            rm docs.zip
+
