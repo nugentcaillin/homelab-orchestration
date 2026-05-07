@@ -1,0 +1,20 @@
+name: update Othello docs
+on: 
+  repository_dispatch:
+    types: [docs-update-proj2-comp30023]
+jobs:
+  deploy_docs:
+    uses: ./.github/workflows/update-docs.yml
+    with:
+      repository: feit-comp30023-2026/proj2-caillinn
+      artifact: ${{ github.event.client_payload.artifact_id }}
+      dest: comp30023_assignment_2
+    secrets:
+      token: ${{ secrets.PROJ2_COMP30023_ARTIFACT_PAT }}
+      CF_ACCESS_CLIENT_ID: ${{secrets.CF_ACCESS_CLIENT_ID}}
+      CF_ACCESS_CLIENT_SECRET: ${{secrets.CF_ACCESS_CLIENT_SECRET}}
+      DEPLOY_BOT_PRIVATE_KEY: ${{secrets.DEPLOY_BOT_PRIVATE_KEY}}
+      DEPLOY_BOT_USER: ${{secrets.DEPLOY_BOT_USER}}
+      DEPLOY_BOT_HOST: ${{secrets.DEPLOY_BOT_HOST}}
+      
+
