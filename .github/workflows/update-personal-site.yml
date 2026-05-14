@@ -1,0 +1,23 @@
+name: Update personal site
+on: 
+  repository_dispatch:
+    types: [personal-site-update]
+  push:
+    paths:
+      - 'personal-site/**'
+jobs:
+  deploy_to_server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: nugentcaillin/actions/cloudflared-ssh@main
+        with:
+          id: ${{secrets.CF_ACCESS_CLIENT_ID}}
+          secret: ${{secrets.CF_ACCESS_CLIENT_SECRET}}
+          key: ${{secrets.DEPLOY_BOT_PRIVATE_KEY}}
+          user: ${{secrets.DEPLOY_BOT_USER}}
+          host: ${{secrets.DEPLOY_BOT_HOST}}
+          script: |
+            cd /opt/infra/homelab-orchestration/personal-site
+            docker compose pull
+            docker compose up -d
+            docker image prune -f

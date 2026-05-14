@@ -1,0 +1,9 @@
+services:
+  personal-site:
+    container_name: personal-site
+    image: caillinnugent/personal-site@latest
+    ports:
+      - "8080:8080"
+    networks:
+      - proxy
+    restart: unless-stopped
