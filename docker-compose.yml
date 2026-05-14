@@ -1,6 +1,7 @@
 networks:
-  proxy:
-    driver: bridge
+  shared:
+    external: true
+    name: proxy-bridge 
 
 services:
   reverse-proxy:
@@ -19,13 +20,13 @@ services:
       - "./nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
       - "./docs:/var/www/docs:ro"
     networks:
-      - proxy
+     - shared
 
   hello-world:
     container_name: hello-world
     image: traefik/whoami
     networks:
-      - proxy
+     - shared
 
   medhack-frontiers-db:
     container_name: medhack-frontiers-db-prod
@@ -36,7 +37,7 @@ services:
     volumes:
       - "./medhack-frontiers-db/prod:/var/lib/mysql"
     networks:
-      - proxy
+     - shared
 
   medhack-frontiers-db-staging:
     container_name: medhack-frontiers-db-staging
@@ -47,19 +48,19 @@ services:
     volumes:
       - "./medhack-frontiers-db/staging:/var/lib/mysql"
     networks:
-      - proxy
+     - shared
 
   medhack-frontend:
     container_name: medhack-frontend
     image: caillinnugent/medhack-frontend:${FRONTEND_TAG}
     networks:
-      - proxy
+     - shared
 
   medhack-backend:
     container_name: medhack-backend
     image: caillinnugent/medhack-backend:${BACKEND_TAG}
     networks:
-      - proxy
+     - shared
   
   jellyfin:
     container_name: jellyfin
@@ -72,7 +73,7 @@ services:
         target: /media
     restart: 'unless-stopped'
     networks:
-      - proxy
+     - shared
     environment: 
     - JELLYFIN_PublishedServerUrl=${JELLYFIN_SERVER_URL}
   
@@ -90,7 +91,7 @@ services:
       - /srv/media-server/torrents:/data/torrents
     restart: 'unless-stopped'
     networks:
-      - proxy
+     - shared
   
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
