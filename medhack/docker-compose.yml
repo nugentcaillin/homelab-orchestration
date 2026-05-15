@@ -5,7 +5,7 @@ networks:
 services:
   medhack-frontend:
     container_name: medhack-frontend
-    image: caillinnugent/medhack-frontend:${FRONTEND_TAG}
+    image: caillinnugent/medhack-frontend:latest
     networks:
      - shared
-   restart: unless-stopped
+    restart: unless-stopped
