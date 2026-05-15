@@ -1,3 +1,8 @@
+networks:
+  shared:
+    external: true
+    name: proxy-bridge 
+
 services:
   personal-site:
     container_name: personal-site
@@ -5,5 +10,5 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - proxy
+      - shared
     restart: unless-stopped
