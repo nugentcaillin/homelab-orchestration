@@ -9,21 +9,6 @@ services:
     image: caillinnugent/medhack-frontend:${FRONTEND_TAG}
     networks:
      - shared
-  jellyfin:
-    container_name: jellyfin
-    image: jellyfin/jellyfin
-    volumes:
-      - ./jellyfin/config:/config
-      - ./jellyfin/cache:/cache
-      - type: bind
-        source: /media
-        target: /media
-    restart: 'unless-stopped'
-    networks:
-     - shared
-    environment: 
-    - JELLYFIN_PublishedServerUrl=${JELLYFIN_SERVER_URL}
-  
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
