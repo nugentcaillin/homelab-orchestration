@@ -4,7 +4,7 @@ on:
     paths:
       - 'nginx/**'
 jobs:
-  pull repository:
+  pull_repository:
     uses: ./.github/workflows/push_to_server.yml
     secrets: inherit
   deploy container:
