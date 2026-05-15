@@ -2,7 +2,6 @@ networks:
   shared:
     external: true
     name: proxy-bridge 
-
 services:
   medhack-frontend:
     container_name: medhack-frontend
