@@ -22,7 +22,7 @@ jobs:
           user: ${{secrets.DEPLOY_BOT_USER}}
           host: ${{secrets.DEPLOY_BOT_HOST}}
           script: |
-            cd /opt/infra/homelab-orchestration/personal-site
+            cd /opt/infra/homelab-orchestration/nginx
             docker compose pull
             docker compose up -d --remove-orphans
             docker exec reverse-proxy nginx -s reload
