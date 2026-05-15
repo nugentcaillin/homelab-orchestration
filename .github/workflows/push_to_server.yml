@@ -1,6 +1,6 @@
 name: Push Repository to Server
 on: 
-  workflow-call:
+  workflow_call:
 jobs:
   deploy_to_server:
     runs-on: ubuntu-latest
