@@ -1,8 +1,13 @@
-name: Push Repository to Server
+name: Update reverse proxy
 on: 
-  workflow-call:
+  push:
+    paths:
+      - 'nginx/**'
 jobs:
-  deploy_to_server:
+  pull repository:
+    uses: ./.github/workflows/push_to_server.yml
+    secrets: inherit
+  deploy container:
     runs-on: ubuntu-latest
     steps:
       - uses: nugentcaillin/actions/cloudflared-ssh@main
@@ -13,5 +18,7 @@ jobs:
           user: ${{secrets.DEPLOY_BOT_USER}}
           host: ${{secrets.DEPLOY_BOT_HOST}}
           script: |
-            cd /opt/infra/homelab-orchestration
-            git pull 
+            cd /opt/infra/homelab-orchestration/personal-site
+            docker compose pull
+            docker compose up -d --remove-orphans
+            docker exec reverse-proxy nginx -s reload
