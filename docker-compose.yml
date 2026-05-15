@@ -4,47 +4,11 @@ networks:
     name: proxy-bridge 
 
 services:
-
-  hello-world:
-    container_name: hello-world
-    image: traefik/whoami
-    networks:
-     - shared
-
-  medhack-frontiers-db:
-    container_name: medhack-frontiers-db-prod
-    image: mysql:8.4.8
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MEDHACK_FRONTIERS_DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=medHackFrontiersDBprod
-    volumes:
-      - "./medhack-frontiers-db/prod:/var/lib/mysql"
-    networks:
-     - shared
-
-  medhack-frontiers-db-staging:
-    container_name: medhack-frontiers-db-staging
-    image: mysql:8.4.8
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MEDHACK_FRONTIERS_DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=medHackFrontiersDBstaging
-    volumes:
-      - "./medhack-frontiers-db/staging:/var/lib/mysql"
-    networks:
-     - shared
-
   medhack-frontend:
     container_name: medhack-frontend
     image: caillinnugent/medhack-frontend:${FRONTEND_TAG}
     networks:
      - shared
-
-  medhack-backend:
-    container_name: medhack-backend
-    image: caillinnugent/medhack-backend:${BACKEND_TAG}
-    networks:
-     - shared
-  
   jellyfin:
     container_name: jellyfin
     image: jellyfin/jellyfin
