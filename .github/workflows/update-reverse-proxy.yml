@@ -1,9 +1,11 @@
 name: Update reverse proxy
 on: 
-  workflow_dispatch
+  workflow_dispatch:
   push:
     paths:
       - 'nginx/**'
+      - '.github/workflows/update-reverse-proxy.yml'
+      - '.github/workflows/push-to-server.yml'
 jobs:
   pull_repository:
     uses: ./.github/workflows/push_to_server.yml
