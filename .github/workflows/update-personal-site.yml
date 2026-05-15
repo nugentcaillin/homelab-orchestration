@@ -1,12 +1,18 @@
 name: Update personal site
 on: 
+  workflow_dispatch:
   repository_dispatch:
     types: [personal-site-update]
   push:
     paths:
       - 'personal-site/**'
+      - '.github/workflows/push-to-server.yml'
+      - '.github/workflows/update-personal-site.yml'
 jobs:
-  deploy_to_server:
+  pull_repository:
+    uses: ./.github/workflows/push_to_server.yml
+    secrets: inherit
+  deploy_container:
     runs-on: ubuntu-latest
     steps:
       - uses: nugentcaillin/actions/cloudflared-ssh@main
@@ -19,5 +25,4 @@ jobs:
           script: |
             cd /opt/infra/homelab-orchestration/personal-site
             docker compose pull
-            docker compose up -d
-            docker image prune -f
+            docker compose up -d --remove-orphans
