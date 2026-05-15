@@ -1,5 +1,6 @@
 name: Update reverse proxy
 on: 
+  workflow_dispatch
   push:
     paths:
       - 'nginx/**'
