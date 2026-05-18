@@ -1,0 +1,14 @@
+networks:
+  shared:
+    external: true
+    name: proxy-bridge 
+
+services:
+  personal-site:
+    container_name: bluesfest-site
+    image: caillinnugent/bluesfest:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - shared
+    restart: unless-stopped

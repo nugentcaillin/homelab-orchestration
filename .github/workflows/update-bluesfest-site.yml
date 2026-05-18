@@ -1,0 +1,29 @@
+name: Update bluesfest site
+on: 
+  workflow_dispatch:
+  repository_dispatch:
+    types: [bluesfest-site-update]
+  push:
+    paths:
+      - 'bluesfest-site/**'
+      - '.github/workflows/push-to-server.yml'
+      - '.github/workflows/update-bluesfest-site.yml'
+jobs:
+  pull_repository:
+    uses: ./.github/workflows/push_to_server.yml
+    secrets: inherit
+  deploy_container:
+    runs-on: ubuntu-latest
+    needs: pull_repository
+    steps:
+      - uses: nugentcaillin/actions/cloudflared-ssh@main
+        with:
+          id: ${{secrets.CF_ACCESS_CLIENT_ID}}
+          secret: ${{secrets.CF_ACCESS_CLIENT_SECRET}}
+          key: ${{secrets.DEPLOY_BOT_PRIVATE_KEY}}
+          user: ${{secrets.DEPLOY_BOT_USER}}
+          host: ${{secrets.DEPLOY_BOT_HOST}}
+          script: |
+            cd /opt/infra/homelab-orchestration/bluesfest-site
+            docker compose pull
+            docker compose up -d --remove-orphans
