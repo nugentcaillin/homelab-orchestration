@@ -1,0 +1,22 @@
+networks:
+  shared:
+    external: true
+    name: proxy-bridge 
+services:
+  admin-frontend:
+    image: registry.gitlab.com/ncaillin/terrain_admin_frontend:latest
+    container_name: terrain_admin_frontend
+    volumes:
+      - ./.env:/app/.env
+    restart: 'unless-stopped'
+    networks:
+     - shared 
+  spring-backend:
+    image: registry.gitlab.com/ncaillin/terrain_admin_frontend:latest
+    container_name: terrain_backend
+    volumes:
+      - ./.env:/app/.env
+    restart: 'unless-stopped'
+    networks:
+     - shared 
+  
