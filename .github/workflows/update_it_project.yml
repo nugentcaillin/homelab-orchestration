@@ -24,6 +24,6 @@ jobs:
           user: ${{secrets.DEPLOY_BOT_USER}}
           host: ${{secrets.DEPLOY_BOT_HOST}}
           script: |
-            cd /opt/infra/homelab-orchestration/personal-site
+            cd /opt/infra/homelab-orchestration/it-proj
             docker compose pull
             docker compose up -d --remove-orphans
