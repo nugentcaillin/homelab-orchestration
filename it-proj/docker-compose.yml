@@ -7,7 +7,7 @@ services:
     image: registry.gitlab.com/ncaillin/terrain_admin_frontend:latest
     container_name: terrain_admin_frontend
     volumes:
-      - ./.env:/app/.env
+      - ./.admin_frontend_env:/app/.env
     restart: 'unless-stopped'
     networks:
      - shared 
@@ -15,7 +15,7 @@ services:
     image: registry.gitlab.com/ncaillin/terrain_admin_frontend:latest
     container_name: terrain_backend
     volumes:
-      - ./.env:/app/.env
+      - ./.backend_env:/app/.env
     restart: 'unless-stopped'
     networks:
      - shared 
