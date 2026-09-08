@@ -12,7 +12,7 @@ services:
     networks:
      - shared 
   spring-backend:
-    image: registry.gitlab.com/ncaillin/terrain_admin_frontend:latest
+    image: registry.gitlab.com/ncaillin/terrain_backend:latest
     container_name: terrain_backend
     volumes:
       - ./.backend_env:/app/.env
