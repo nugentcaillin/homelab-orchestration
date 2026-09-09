@@ -14,6 +14,8 @@ services:
   spring-backend:
     image: registry.gitlab.com/ncaillin/terrain_backend:latest
     container_name: terrain_backend
+    env_file:
+      - backend_docker.env
     volumes:
       - ./.backend_env:/app/.env
     restart: 'unless-stopped'
