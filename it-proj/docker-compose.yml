@@ -21,4 +21,12 @@ services:
     restart: 'unless-stopped'
     networks:
      - shared 
+  admin-frontend:
+    image: registry.gitlab.com/ncaillin/terrain-dashboard-frontend:latest
+    container_name: terrain_dashboard_frontend
+    volumes:
+      - ./.dashboard_frontend_env:/app/.env
+    restart: 'unless-stopped'
+    networks:
+     - shared 
   
